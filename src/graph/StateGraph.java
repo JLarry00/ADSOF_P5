@@ -10,6 +10,7 @@ public class StateGraph<T> {
     private Node<T> initialNode;
     private List<Node<T>> finalNodes;
     private List<Edge> edges;
+    private LinkedHashMap<String, Predicate<T>> conditions;
 
     public StateGraph(String name, String description) {
         this.name = name;
@@ -18,6 +19,7 @@ public class StateGraph<T> {
         this.initialNode = null;
         this.finalNodes = new ArrayList<Node<T>>();
         this.edges = new ArrayList<Edge>();
+        this.conditions = new LinkedHashMap<String, Predicate<T>>();
     }
 
     public String getName() {
@@ -51,6 +53,11 @@ public class StateGraph<T> {
         return this;
     }
 
+    public void addConditionalEdge(String from, String to, Predicate<T> condition) {
+        addEdge(from, to);
+        conditions.put(from + "-" + to, condition);
+    }
+
     public Node<T> getNode(String name) {
         return nodes.get(name);
     }
@@ -79,15 +86,18 @@ public class StateGraph<T> {
         return Collections.unmodifiableList(finalNodes);
     }
 
+    public Map<String, Predicate<T>> getConditions() {
+        return Collections.unmodifiableMap(conditions);
+    }
+
     public T run(T input, boolean debug) {
         T output = input;
         int i = 1;
-
-        if (debug) {
-            System.out.println("Step " + i + " (" + name + ") - " + "input: " + input);
+        
+        if (conditions.get(initialNode.getName()) == null || conditions.get(initialNode.getName()).test(output)) {
+            if (debug) System.out.println("Step " + i + " (" + name + ") - " + "input: " + input);
+            initialNode.run(output, debug, i + 1);
         }
-
-        initialNode.run(output, debug, i + 1);
         
         return output;
     }
