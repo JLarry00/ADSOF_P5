@@ -2,48 +2,35 @@ package src;
 
 import src.data.*;
 import src.graph.*;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        StateGraph<NumericData> sg = buildWorkflow();
-        StateGraph<StringData> sg2 = buildWorkflow(sg);
-
-        System.out.println(sg2);
-
-        StringData input = new StringData("jamon", 2);
-        System.out.println("input = " + input);
-        StringData output = sg2.run(input, true); // ejecución con debug
-        System.out.println("result = " + output);
+        StreamingStateGraph<DoubleData> sg = buildWorkflow(); // el método construye el workflow
+        System.out.println(sg);
+        List
+          .of(1, 5, 2, 4)
+          .forEach( d->{ DoubleData wfInput = new DoubleData(d, 0);
+            System.out.println("Workflow input = "+wfInput);
+            sg.run(wfInput, true);
+          });
+        System.out.println("History="+sg.history());
     }
 
-    private static StateGraph<NumericData> buildWorkflow() {
-        StateGraph<NumericData> sg = new StateGraph<>("math2", "Add two numbers, and then square");
+    private static StreamingStateGraph<DoubleData> buildWorkflow() {
+        StreamingStateGraph<DoubleData> sg = new StreamingStateGraph<>("average", "Calculates the average of an incoming data");
 
-        sg.addNode("sum", (NumericData mo) -> mo.put("result", mo.get("op1") + mo.get("op2")))
-          .addNode("square", (NumericData mo) -> mo.put("result", mo.get("result") * mo.get("result")));
-          
-        sg.addEdge("sum", "square");
+        sg.addNode("average", (DoubleData mo) -> {
+            double sum = mo.getValue();
+            for (DoubleData nd: sg.history()) {
+                sum += nd.getValue();
+            }
+            double average = sum / (sg.history().size() + 1);
+            mo.setAvg(average);
+        });
 
-        sg.setInitial("sum");
-        sg.setFinal("square");
+        sg.setInitial("average");
 
-        return sg;
-    }
-
-    public static StateGraph<StringData> buildWorkflow(StateGraph<NumericData> wfNumeric) {
-        StateGraph<StringData> sg = new StateGraph<>("replicate", "Replicates a given word");
-    
-        sg.addWfNode("calculate", wfNumeric)
-          .withInjector((StringData sd) -> sd.toNumericData())
-          .withExtractor((NumericData nd, StringData sd) -> sd.setTimes(nd.get("result")));
-    
-        sg.addNode("replicate", sd -> sd.replicate());
-    
-        sg.addEdge("calculate", "replicate")
-          .addConditionalEdge("replicate", "replicate", sd -> sd.times() > 0);
-    
-        sg.setInitial("calculate");
-    
         return sg;
     }
 }

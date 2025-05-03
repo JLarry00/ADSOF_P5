@@ -3,6 +3,8 @@ package src.graph;
 import java.util.*;
 import java.util.function.*;
 
+import src.data.NumericData;
+
 public class StateGraph<T> {
     private String name;
     private String description;
@@ -11,6 +13,8 @@ public class StateGraph<T> {
     private List<Node<T, Object>> finalNodes;
     private List<Edge> edges;
     private LinkedHashMap<String, Predicate<T>> conditions;
+    
+    private List<NumericData> numericData;
 
     public StateGraph(String name, String description) {
         this.name = name;
@@ -20,7 +24,15 @@ public class StateGraph<T> {
         this.finalNodes = new ArrayList<Node<T, Object>>();
         this.edges = new ArrayList<Edge>();
         this.conditions = new LinkedHashMap<String, Predicate<T>>();
+        this.numericData = new ArrayList<NumericData>();
+        numericData.add(new NumericData(2,2));
+        numericData.add(new NumericData(3,3));
+        numericData.add(new NumericData(4,4));
     }
+
+    public List<NumericData> getNumericData() { return Collections.unmodifiableList(numericData); }
+
+
 
     public String getName() { return name; }
 
