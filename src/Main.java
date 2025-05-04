@@ -1,11 +1,37 @@
 package src;
 
 import src.data.*;
+import src.decorate.*;
 import src.graph.*;
-import java.util.List;
 
 public class Main {
+
     public static void main(String[] args) {
+        StateGraph<NumericData> g = new StateGraph<>("loop-down", "Get a number, and decrease if positive");
+        StateGraphLogger<NumericData> lg = new StateGraphLogger<>(g, "traces.txt");
+        StateGraphProfiler<NumericData> sg = new StateGraphProfiler<>(lg);
+
+        sg.addNode("decrease", (NumericData mo) -> mo.setOp1(mo.getOp1() - 1));
+        sg.addConditionalEdge("decrease", "decrease", (NumericData mo) -> mo.getOp1() > 0);
+        sg.setInitial("decrease");
+
+        NumericData input = new NumericData(3, 0);
+        System.out.println(sg + "\ninput = " + input);
+        NumericData output = sg.run(input, true);
+        System.out.println("result = " + output);
+        System.out.println("history = " + sg.history());
+    }
+
+
+
+
+
+
+
+
+
+    
+    /*public static void main(String[] args) {
         StreamingStateGraph<DoubleData> sg = buildWorkflow(); // el método construye el workflow
         System.out.println(sg);
         List
@@ -32,5 +58,5 @@ public class Main {
         sg.setInitial("average");
 
         return sg;
-    }
+    }*/
 }

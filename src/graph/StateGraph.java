@@ -4,8 +4,10 @@ import java.util.*;
 import java.util.function.*;
 
 import src.data.NumericData;
+import src.graph.Node;
+import src.decorate.InterfaceStateGraph;
 
-public class StateGraph<T> {
+public class StateGraph<T> implements InterfaceStateGraph<T> {
     private String name;
     private String description;
     private LinkedHashMap<String, Node<T, Object>> nodes;
@@ -50,18 +52,21 @@ public class StateGraph<T> {
 
     public List<Edge> getEdges() { return Collections.unmodifiableList(edges); }
 
+    @Override
     public void setInitial(String name) { initialNode = nodes.get(name); }
 
     public void setFinal(String name) { finalNodes.add(nodes.get(name)); }
 
-    public StateGraph<T> addNode(String name, Consumer<T> action) {
+    @Override
+    public InterfaceStateGraph<T> addNode(String name, Consumer<T> action) {
         if (nodes.get(name) != null) throw new IllegalArgumentException("Node already exists");
 
         nodes.put(name, new Node<T, Object>(name, action, this));
         return this;
     }
 
-    public <R> Node<T, R> addWfNode(String name, StateGraph<R> workFlow) {
+    @Override
+    public <R> Node<T, R> addWfNode(String name, InterfaceStateGraph<R> workFlow) {
         if (nodes.get(name) != null) throw new IllegalArgumentException("Node already exists");
         
         Node<T, R> node = new Node<T, R>(name, this, workFlow);
@@ -72,7 +77,8 @@ public class StateGraph<T> {
         return node;
     }
 
-    public StateGraph<T> addEdge(String from, String to) {
+    @Override   
+    public InterfaceStateGraph<T> addEdge(String from, String to) {
         if (nodes.get(from) == null)                            throw new IllegalArgumentException("Node origin not found");
         if (nodes.get(to) == null)                              throw new IllegalArgumentException("Node destination not found");
         if (nodes.get(from).getChilds().contains(nodes.get(to))) throw new IllegalArgumentException("Edge already exists");
@@ -82,11 +88,13 @@ public class StateGraph<T> {
         return this;
     }
 
+    @Override
     public void addConditionalEdge(String from, String to, Predicate<T> condition) {
         addEdge(from, to);
         conditions.put(from + "-" + to, condition);
     }
 
+    @Override
     public T run(T input, boolean debug) {
         T output = input;
         int i = 1;
@@ -100,10 +108,28 @@ public class StateGraph<T> {
     }
 
     @Override
+    public String getSuffixDecorators() {
+        return "";
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Workflow '").append(name).append("' (").append(description).append("):");
-        sb.append("\n- Nodes: " + nodes.toString());
+        sb.append("\n- Nodes: {");
+        boolean first = true;
+        for (Map.Entry<String, Node<T, Object>> entry : nodes.entrySet()) {
+            if (!first) sb.append(", ");
+            first = false;
+            String nodeName = entry.getKey();
+            Node<T, Object> node = entry.getValue();
+            sb.append(nodeName)
+              .append("=")
+              .append(node.toString())
+              .append(" ")
+              .append(getSuffixDecorators());
+        }
+        sb.append("}");
         sb.append("\n- Initial: " + (initialNode != null ? initialNode.getName() : "null"));
         sb.append("\n- Final: ");
         if (finalNodes.size() == 1) {

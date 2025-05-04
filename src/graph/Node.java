@@ -2,6 +2,8 @@ package src.graph;
 
 import java.util.*;
 import java.util.function.*;
+import src.graph.StateGraph;
+import src.decorate.InterfaceStateGraph;
 
 public class Node<T, R> {
     private String name;
@@ -9,7 +11,7 @@ public class Node<T, R> {
     private List<Node<T, R>> childs;
     private Node<T, R> previousNode;
     private StateGraph<T> parentStateGraph;
-    private StateGraph<R> workflowGraph;
+    private InterfaceStateGraph<R> workflowGraph;
     private Function<T, R> injector;
     private BiFunction<R, T, T> extractor;
 
@@ -24,7 +26,7 @@ public class Node<T, R> {
         this.extractor = null;
     }
 
-    public Node(String name, StateGraph<T> stateGraph, StateGraph<R> workflowGraph) {
+    public Node(String name, StateGraph<T> stateGraph, InterfaceStateGraph<R> workflowGraph) {
         this.name = name;
         this.action = null;
         this.parentStateGraph = stateGraph;
@@ -47,7 +49,7 @@ public class Node<T, R> {
 
     public StateGraph<T> getParentStateGraph() { return parentStateGraph; }
 
-    public StateGraph<R> getWorkflowGraph() { return workflowGraph; }
+    public InterfaceStateGraph<R> getWorkflowGraph() { return workflowGraph; }
 
     public Function<T, R> getInjector() { return injector; }
 
