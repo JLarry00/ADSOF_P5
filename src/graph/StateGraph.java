@@ -109,7 +109,7 @@ public class StateGraph<T> implements InterfaceStateGraph<T> {
 
     @Override
     public String getSuffixDecorators() {
-        return "";
+        return "poiuygt";
     }
 
     @Override
