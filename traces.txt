@@ -1,32 +1,3 @@
-[04/05/2025 - 17:36:53] node decrease executed,
-[04/05/2025 - 17:40:39] node decrease executed,
-[04/05/2025 - 17:40:43] node decrease executed,
-[04/05/2025 - 17:40:43]  with output: {op1={op1=3, op2=0, result=0}, op2={op1=3, op2=0, result=0}, result={op1=3, op2=0, result=0}}
-[04/05/2025 - 17:45:17] node decrease executed,
-[04/05/2025 - 17:45:17]  with output: {op1={op1=3, op2=0, result=0}, op2={op1=3, op2=0, result=0}, result={op1=3, op2=0, result=0}}
-[04/05/2025 - 17:52:02] node decrease executed,
-[04/05/2025 - 17:52:02]  with output: {op1={op1=3, op2=0, result=0}, op2={op1=3, op2=0, result=0}, result={op1=3, op2=0, result=0}}
-[04/05/2025 - 17:53:37] node decrease executed,
-[04/05/2025 - 17:53:38]  with output: {op1={op1=3, op2=0, result=0}, op2={op1=3, op2=0, result=0}, result={op1=3, op2=0, result=0}}
-[04/05/2025 - 17:54:36] node decrease executed,
-[04/05/2025 - 17:54:36]  with output: {op1={op1=3, op2=0, result=0}, op2={op1=3, op2=0, result=0}, result={op1=3, op2=0, result=0}}
-[04/05/2025 - 17:58:48] node decrease executed,
-[04/05/2025 - 17:58:48]  with output: {op1={op1=3, op2=0, result=0}, op2={op1=3, op2=0, result=0}, result={op1=3, op2=0, result=0}}
-[04/05/2025 - 18:05:39] node decrease executed,
-[04/05/2025 - 18:05:39]  with output: {op1={op1=3, op2=0, result=0}, op2={op1=3, op2=0, result=0}, result={op1=3, op2=0, result=0}}
-[04/05/2025 - 18:11:49] node decrease executed,
-[04/05/2025 - 18:11:49]  with output: {op1={op1=3, op2=0, result=0}, op2={op1=3, op2=0, result=0}, result={op1=3, op2=0, result=0}}
-[04/05/2025 - 18:18:17] node decrease executed,
-[04/05/2025 - 18:18:17]  with output: {op1={op1=3, op2=0, result=0}, op2={op1=3, op2=0, result=0}, result={op1=3, op2=0, result=0}}
-[04/05/2025 - 18:24:06] node decrease executed,
-[04/05/2025 - 18:26:11] node decrease executed,
-[04/05/2025 - 18:26:15] node decrease executed,
-[04/05/2025 - 18:26:15]  with output: {op1=0, op2=0, result=0}
-[04/05/2025 - 18:33:18] node decrease executed,
-[04/05/2025 - 18:33:18]  with output: {op1=0, op2=0, result=0}
-[04/05/2025 - 20:01:30] node decrease executed,
-[04/05/2025 - 20:01:30]  with output: {op1=0, op2=0, result=0}
-[05/05/2025 - 17:06:16] node decrease executed,
-[05/05/2025 - 17:06:16]  with output: {op1=0, op2=0, result=0}
-[05/05/2025 - 17:17:25] node decrease executed,
-[05/05/2025 - 17:17:25]  with output: {op1=0, op2=0, result=0}
+[05/05/2025 - 19:32:03] node decrease executed, with output: {op1=2, op2=0, result=0}
+[05/05/2025 - 19:32:03] node decrease executed, with output: {op1=1, op2=0, result=0}
+[05/05/2025 - 19:32:03] node decrease executed, with output: {op1=0, op2=0, result=0}

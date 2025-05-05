@@ -1,40 +1,42 @@
 package src.decorate;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.function.*;
+import java.util.*;
+
+import src.graph.*;
 
 public class StateGraphProfiler<T> extends BaseDecorator<T> {
-    private long startTime;
-    private long endTime;
     private List<String> historic;
-    private static final double NANOSECONDS_TO_SECONDS = 1000000000.0;
 
-    //lg
     public StateGraphProfiler(InterfaceStateGraph<T> wrappee) {
         super(wrappee);
         historic = new ArrayList<>();
     }
 
-    @Override 
+    @Override
     public T run(T input, boolean debug) {
-        String traceAux;
-        traceAux = input.toString();
-        startTime = System.nanoTime();
         T result = super.run(input, debug);
-        endTime = System.nanoTime();
-        
-        double elapsedMs = (endTime - startTime) / NANOSECONDS_TO_SECONDS;
-        String trace = "[decrease with: " + traceAux + String.format("%.4f", elapsedMs) + " ms"+ "] " ;
-        historic.add(trace);
         return result;
-    }
-    
-    public List<String> history() {
-        return java.util.Collections.unmodifiableList(historic);
     }
 
     @Override
-    public String getSuffixDecorators() {
-        return "[profiled]";
+    public InterfaceStateGraph<T> addNode(String name, Consumer<T> action) {
+        super.addNode(name, action);
+        Node<T, Object> node = super.getNode(name);
+        node = new NodeProfiler<>(node, this);
+        super.replaceNode(node);
+        return this;
+    }
+    
+    public List<String> history() {
+        return Collections.unmodifiableList(historic);
+    }
+
+    public void addHistory(String history) {
+        List<String> reverse = new ArrayList<>();
+        reverse.add(history);
+        reverse.addAll(historic);
+        historic = reverse;
     }
 
     @Override 

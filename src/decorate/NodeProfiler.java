@@ -1,38 +1,28 @@
 package src.decorate;
-import java.util.List;
 import src.graph.Node;
 
-public class NodeProfiler<T, R> extends Node<T, R> {
-    private final Node<T, R> wrappee;
-    private final List<String> historic;
-    private long startTime;
-    private long endTime;
+public class NodeProfiler<T, R> extends NodeDecorator<T, R> {
     private static final double NANOSECONDS_TO_SECONDS = 1000000000.0;
+    private StateGraphProfiler<T> stateGraphProfiler;
 
-    //lg
-    public NodeProfiler(Node<T, R> wrappee, List<String> historic) {
-        super(wrappee.getName(), wrappee.getAction(), wrappee.getParentStateGraph());
-        this.wrappee = wrappee;
-        this.historic = historic;
+    public NodeProfiler(Node<T, R> wrappee, StateGraphProfiler<T> stateGraphProfiler) {
+        super(wrappee);
+        this.stateGraphProfiler = stateGraphProfiler;
     }
 
     @Override
     public boolean run(T input, boolean debug, int i) {
         String entrada = input.toString();
-        long start = System.nanoTime();
-        boolean result = wrappee.run(input, debug, i);
-        long end = System.nanoTime();
-        double elapsedMs = (end - start) / 1_000_000.0;
-        historic.add("[" + getName() + " with: " + entrada + "] " + String.format("%.4f", elapsedMs) + " ms");
+        long startTime = System.nanoTime();
+        boolean result = super.run(input, debug, i);
+        long endTime = System.nanoTime();
+        double elapsedMs = (endTime - startTime) / NANOSECONDS_TO_SECONDS;
+        stateGraphProfiler.addHistory("[" + getName() + " with: " + entrada + "] " + String.format("%.4f", elapsedMs) + " s");
         return result;
-    }
-    
-    public List<String> history() {
-        return java.util.Collections.unmodifiableList(historic);
     }
 
     @Override 
     public String toString(){
-        return super.toString();
+        return super.toString() + " [profiled]";
     }
 }

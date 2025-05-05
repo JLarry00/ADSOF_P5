@@ -2,8 +2,8 @@ package src.graph;
 
 import java.util.*;
 import java.util.function.*;
-import src.graph.StateGraph;
-import src.decorate.InterfaceStateGraph;
+
+import src.decorate.*;
 
 public class Node<T, R> {
     private String name;
@@ -87,7 +87,7 @@ public class Node<T, R> {
             input = extractedData;
         }
         
-        if (condition != null && condition.test(input) == false) return false;
+        if (condition != null && !condition.test(input)) return false;
         
         if (action != null) action.accept(input);
 
@@ -96,7 +96,7 @@ public class Node<T, R> {
         if (childs.isEmpty()) return false;
 
         for (Node<T, R> child : childs)
-            if (!child.run(input, debug, i + 1))
+            if (child.run(input, debug, i + 1) == false)
                 return false;
         
         return true;

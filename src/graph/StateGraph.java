@@ -4,7 +4,6 @@ import java.util.*;
 import java.util.function.*;
 
 import src.data.NumericData;
-import src.graph.Node;
 import src.decorate.InterfaceStateGraph;
 
 public class StateGraph<T> implements InterfaceStateGraph<T> {
@@ -34,8 +33,6 @@ public class StateGraph<T> implements InterfaceStateGraph<T> {
 
     public List<NumericData> getNumericData() { return Collections.unmodifiableList(numericData); }
 
-
-
     public String getName() { return name; }
 
     public String getDescription() { return description; }
@@ -55,6 +52,7 @@ public class StateGraph<T> implements InterfaceStateGraph<T> {
     @Override
     public void setInitial(String name) { initialNode = nodes.get(name); }
 
+    @Override
     public void setFinal(String name) { finalNodes.add(nodes.get(name)); }
 
     @Override
@@ -62,6 +60,13 @@ public class StateGraph<T> implements InterfaceStateGraph<T> {
         if (nodes.get(name) != null) throw new IllegalArgumentException("Node already exists");
 
         nodes.put(name, new Node<T, Object>(name, action, this));
+        return this;
+    }
+
+    @Override
+    public InterfaceStateGraph<T> replaceNode(Node<T, Object> node) {
+        if (nodes.get(node.getName()) == null) throw new IllegalArgumentException("Node not found");
+        nodes.put(node.getName(), node);
         return this;
     }
 
@@ -108,15 +113,11 @@ public class StateGraph<T> implements InterfaceStateGraph<T> {
     }
 
     @Override
-    public String getSuffixDecorators() {
-        return "poiuygt";
-    }
-
-    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Workflow '").append(name).append("' (").append(description).append("):");
-        sb.append("\n- Nodes: {");
+        sb.append("\n- Nodes: " + nodes.toString());
+        /* sb.append("\n- Nodes: {");
         boolean first = true;
         for (Map.Entry<String, Node<T, Object>> entry : nodes.entrySet()) {
             if (!first) sb.append(", ");
@@ -125,11 +126,9 @@ public class StateGraph<T> implements InterfaceStateGraph<T> {
             Node<T, Object> node = entry.getValue();
             sb.append(nodeName)
               .append("=")
-              .append(node.toString())
-              .append(" ")
-              .append(getSuffixDecorators());
+              .append(node.toString());
         }
-        sb.append("}");
+        sb.append("}"); */
         sb.append("\n- Initial: " + (initialNode != null ? initialNode.getName() : "null"));
         sb.append("\n- Final: ");
         if (finalNodes.size() == 1) {

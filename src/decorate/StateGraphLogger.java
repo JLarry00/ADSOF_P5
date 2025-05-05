@@ -1,37 +1,53 @@
 package src.decorate;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.function.*;
+import src.graph.*;
+import java.util.*;
+import java.io.*;
 
 public class StateGraphLogger<T> extends BaseDecorator<T> {
     private String fileName;
+    private List<String> registers;
 
     public StateGraphLogger(InterfaceStateGraph<T> wrappee, String fileName) {
         super(wrappee);
         this.fileName = fileName;
+        this.registers = new ArrayList<String>();
+    }
+
+    public List<String> getRegisters() {
+        return Collections.unmodifiableList(registers);
+    }
+
+    public void addRegister(String register) {
+        registers.add(register);
     }
 
     @Override
     public T run(T input, boolean debug) {
-        guardar("node decrease executed,");
         T result = super.run(input, debug);
-        guardar(" with output: " + input.toString());
+        Collections.reverse(registers);
+        for (String register : registers) {
+            guardar(register);
+        }
         return result;
     }
 
     private void guardar(String mensaje) {
-        String timestamp = new java.text.SimpleDateFormat("[dd/MM/yyyy - HH:mm:ss]").format(new java.util.Date());
         try (PrintWriter writer = new PrintWriter(new FileWriter(fileName, true))) {
-            writer.println(timestamp + " " + mensaje);
+            writer.println(mensaje);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public String getSuffixDecorators() {
-        return "[logged]";
+    public InterfaceStateGraph<T> addNode(String name, Consumer<T> action) {
+        super.addNode(name, action);
+        Node<T, Object> node = super.getNode(name);
+        node = new NodeLogger<>(node, this);
+        super.replaceNode(node);
+        return this;
     }
 
     @Override

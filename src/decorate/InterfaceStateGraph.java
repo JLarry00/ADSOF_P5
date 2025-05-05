@@ -7,6 +7,8 @@ import src.graph.*;
 public interface InterfaceStateGraph<T> {
     InterfaceStateGraph<T> addNode(String name, Consumer<T> action);
 
+    InterfaceStateGraph<T> replaceNode(Node<T, Object> node);
+
     <R> Node<T, R> addWfNode(String name, InterfaceStateGraph<R> workFlow);
 
     InterfaceStateGraph<T> addEdge(String from, String to);
@@ -17,10 +19,10 @@ public interface InterfaceStateGraph<T> {
 
     void setInitial(String name);
 
+    void setFinal(String name);
+
     String toString();
 
-    String getSuffixDecorators();
-
-
+    Node<T, Object> getNode(String name);
 }
 
