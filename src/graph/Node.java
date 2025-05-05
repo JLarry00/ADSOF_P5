@@ -76,18 +76,14 @@ public class Node<T, R> {
     }
 
     public boolean run(T input, boolean debug, int i) {
-        Predicate<T> condition = null;
-        if (previousNode != null) {
-            condition = parentStateGraph.getConditions().get(previousNode.getName() + "-" + name);
-        }
         if (workflowGraph != null) {
             R workflowInput = injector.apply(input);
             R workflowOutput = workflowGraph.run(workflowInput, debug);
             T extractedData = extractor.apply(workflowOutput, input);
             input = extractedData;
         }
-        
-        if (condition != null && !condition.test(input)) return false;
+
+        if (!allowed(input)) return false;
         
         if (action != null) action.accept(input);
 
@@ -99,6 +95,15 @@ public class Node<T, R> {
             if (child.run(input, debug, i + 1) == false)
                 return false;
         
+        return true;
+    }
+
+    public boolean allowed(T input) {
+        Predicate<T> condition = null;
+        if (previousNode != null) {
+            condition = parentStateGraph.getConditions().get(previousNode.getName() + "-" + name);
+        }
+        if (condition != null && !condition.test(input)) return false;
         return true;
     }
 

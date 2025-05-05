@@ -20,22 +20,22 @@ public class StateGraphLogger<T> extends BaseDecorator<T> {
     }
 
     public void addRegister(String register) {
-        registers.add(register);
+        List<String> reverse = new ArrayList<>();
+        reverse.add(register);
+        reverse.addAll(registers);
+        registers = reverse;
     }
 
     @Override
     public T run(T input, boolean debug) {
         T result = super.run(input, debug);
-        Collections.reverse(registers);
-        for (String register : registers) {
-            guardar(register);
-        }
+        registerExecutions();
         return result;
     }
 
-    private void guardar(String mensaje) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(fileName, true))) {
-            writer.println(mensaje);
+    public void registerExecutions() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(fileName, false))) {
+            for (String register : registers) writer.println(register);
         } catch (IOException e) {
             e.printStackTrace();
         }

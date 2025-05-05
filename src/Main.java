@@ -11,8 +11,8 @@ public class Main {
         StateGraphLogger<NumericData> lg = new StateGraphLogger<>(g, "traces.txt");
         StateGraphProfiler<NumericData> sg = new StateGraphProfiler<>(lg);
 
-        sg.addNode("decrease", (NumericData mo) -> mo.setOp1(mo.getOp1() - 1));
-        sg.addConditionalEdge("decrease", "decrease", (NumericData mo) -> mo.getOp1() > 0);
+        sg.addNode("decrease", (NumericData mo) -> mo.put("op1", mo.get("op1") - 1));
+        sg.addConditionalEdge("decrease", "decrease", (NumericData mo) -> mo.get("op1") > 0);
         sg.setInitial("decrease");
 
         NumericData input = new NumericData(3, 0);

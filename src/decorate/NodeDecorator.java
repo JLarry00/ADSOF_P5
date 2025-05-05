@@ -76,6 +76,11 @@ public class NodeDecorator<T, R> extends Node<T, R> {
     }
 
     @Override
+    public boolean allowed(T input) {
+        return wrappee.allowed(input);
+    }
+
+    @Override
     public void setPreviousNode(Node<T, R> previousNode) {
         wrappee.setPreviousNode(previousNode);
     }
