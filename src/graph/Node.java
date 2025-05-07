@@ -8,6 +8,7 @@ import src.decorate.*;
 public class Node<T, R> {
     private String name;
     private Consumer<T> action;
+    private boolean finalNode;
     private List<Node<T, R>> childs;
     private Node<T, R> previousNode;
     private StateGraph<T> parentStateGraph;
@@ -24,6 +25,7 @@ public class Node<T, R> {
         this.workflowGraph = null;
         this.injector = null;
         this.extractor = null;
+        this.finalNode = false;
     }
 
     public Node(String name, StateGraph<T> stateGraph, InterfaceStateGraph<R> workflowGraph) {
@@ -35,6 +37,7 @@ public class Node<T, R> {
         this.workflowGraph = workflowGraph;
         this.injector = null;
         this.extractor = null;
+        this.finalNode = false;
     }
 
     public String getName() { return name; }
@@ -54,6 +57,10 @@ public class Node<T, R> {
     public Function<T, R> getInjector() { return injector; }
 
     public BiFunction<R, T, T> getExtractor() { return extractor; }
+
+    public boolean isFinalNode() { return finalNode; }
+
+    public void setFinalNode(boolean finalNode) { this.finalNode = finalNode; }
 
     public void addEdge(Node<T, R> nextNode) {
         if (childs.contains(nextNode)) throw new IllegalArgumentException("Edge already exists");
@@ -83,13 +90,15 @@ public class Node<T, R> {
             input = extractedData;
         }
 
-        if (!allowed(input)) return false;
+        if (!isEdgeAllowed(input)) return true;
         
         if (action != null) action.accept(input);
 
         if (debug) System.out.println("Step " + i + " (" + parentStateGraph.getName() + ") - " +  name + " executed: " + input);
+        
+        if (finalNode) return false;
 
-        if (childs.isEmpty()) return false;
+        if (childs.isEmpty()) return true;
 
         for (Node<T, R> child : childs)
             if (child.run(input, debug, i + 1) == false)
@@ -98,7 +107,7 @@ public class Node<T, R> {
         return true;
     }
 
-    public boolean allowed(T input) {
+    public boolean isEdgeAllowed(T input) {
         Predicate<T> condition = null;
         if (previousNode != null) {
             condition = parentStateGraph.getConditions().get(previousNode.getName() + "-" + name);

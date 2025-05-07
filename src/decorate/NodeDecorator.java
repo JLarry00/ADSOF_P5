@@ -76,8 +76,8 @@ public class NodeDecorator<T, R> extends Node<T, R> {
     }
 
     @Override
-    public boolean allowed(T input) {
-        return wrappee.allowed(input);
+    public boolean isEdgeAllowed(T input) {
+        return wrappee.isEdgeAllowed(input);
     }
 
     @Override

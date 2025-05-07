@@ -53,7 +53,10 @@ public class StateGraph<T> implements InterfaceStateGraph<T> {
     public void setInitial(String name) { initialNode = nodes.get(name); }
 
     @Override
-    public void setFinal(String name) { finalNodes.add(nodes.get(name)); }
+    public void setFinal(String name) {
+        finalNodes.add(nodes.get(name));
+        nodes.get(name).setFinalNode(true);
+    }
 
     @Override
     public InterfaceStateGraph<T> addNode(String name, Consumer<T> action) {
@@ -104,9 +107,11 @@ public class StateGraph<T> implements InterfaceStateGraph<T> {
         T output = input;
         int i = 1;
         
-        if (conditions.get(initialNode.getName()) == null || conditions.get(initialNode.getName()).test(output)) {
-            if (debug) System.out.println("Step " + i + " (" + name + ") - " + "input: " + input);
-            initialNode.run(output, debug, i + 1);
+        if (initialNode != null) {
+            if (conditions.get(initialNode.getName()) == null || conditions.get(initialNode.getName()).test(output)) {
+                if (debug) System.out.println("Step " + i + " (" + name + ") - " + "input: " + input);
+                initialNode.run(output, debug, i + 1);
+            }
         }
         
         return output;
@@ -117,18 +122,6 @@ public class StateGraph<T> implements InterfaceStateGraph<T> {
         StringBuilder sb = new StringBuilder();
         sb.append("Workflow '").append(name).append("' (").append(description).append("):");
         sb.append("\n- Nodes: " + nodes.toString());
-        /* sb.append("\n- Nodes: {");
-        boolean first = true;
-        for (Map.Entry<String, Node<T, Object>> entry : nodes.entrySet()) {
-            if (!first) sb.append(", ");
-            first = false;
-            String nodeName = entry.getKey();
-            Node<T, Object> node = entry.getValue();
-            sb.append(nodeName)
-              .append("=")
-              .append(node.toString());
-        }
-        sb.append("}"); */
         sb.append("\n- Initial: " + (initialNode != null ? initialNode.getName() : "null"));
         sb.append("\n- Final: ");
         if (finalNodes.size() == 1) {

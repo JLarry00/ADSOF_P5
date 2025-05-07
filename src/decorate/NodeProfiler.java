@@ -12,7 +12,7 @@ public class NodeProfiler<T, R> extends NodeDecorator<T, R> {
 
     @Override
     public boolean run(T input, boolean debug, int i) {
-        boolean allowed = super.allowed(input);
+        boolean allowed = super.isEdgeAllowed(input);
         String entrada = input.toString();
         long startTime = System.nanoTime();
         boolean result = super.run(input, debug, i);

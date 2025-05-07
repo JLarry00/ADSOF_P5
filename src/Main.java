@@ -4,9 +4,27 @@ import src.data.*;
 import src.decorate.*;
 import src.graph.*;
 
+import java.util.List;
+
 public class Main {
 
     public static void main(String[] args) {
+        print("Ejercicio 1");
+        mainEj1(args);
+        print("Ejercicio 2");
+        mainEj2(args);
+        print("Ejercicio 3");
+        mainEj3(args);
+        print("Ejercicio 4");
+        mainEj4(args);
+        print("Ejercicio 5");
+        mainEj5(args);
+    }
+
+    /*
+     * Ejercicio 5
+     */
+    public static void mainEj5(String[] args) {
         StateGraph<NumericData> g = new StateGraph<>("loop-down", "Get a number, and decrease if positive");
         StateGraphLogger<NumericData> lg = new StateGraphLogger<>(g, "traces.txt");
         StateGraphProfiler<NumericData> sg = new StateGraphProfiler<>(lg);
@@ -22,17 +40,11 @@ public class Main {
         System.out.println("history = " + sg.history());
     }
 
-
-
-
-
-
-
-
-
-    
-    /*public static void main(String[] args) {
-        StreamingStateGraph<DoubleData> sg = buildWorkflow(); // el método construye el workflow
+    /*
+     * Ejercicio 4
+     */
+    public static void mainEj4(String[] args) {
+        StreamingStateGraph<DoubleData> sg = buildWorkflowEj4(); // el método construye el workflow
         System.out.println(sg);
         List
           .of(1, 5, 2, 4)
@@ -43,7 +55,7 @@ public class Main {
         System.out.println("History="+sg.history());
     }
 
-    private static StreamingStateGraph<DoubleData> buildWorkflow() {
+    private static StreamingStateGraph<DoubleData> buildWorkflowEj4() {
         StreamingStateGraph<DoubleData> sg = new StreamingStateGraph<>("average", "Calculates the average of an incoming data");
 
         sg.addNode("average", (DoubleData mo) -> {
@@ -58,5 +70,102 @@ public class Main {
         sg.setInitial("average");
 
         return sg;
-    }*/
+    }
+
+    /*
+     * Ejercicio 3
+     */
+    private static void mainEj3(String[] args) {
+        StateGraph<NumericData> wfNumeric = buildWorkflowEj2();
+        StateGraph<StringData> sg = buildWorkflowEj3(wfNumeric);
+        System.out.println(sg);
+
+        StringData input = new StringData("jamon", 2);
+        System.out.println("input = " + input);
+        StringData output = sg.run(input, true); // ejecución con debug
+        System.out.println("result = " + output);
+    }
+
+    public static StateGraph<StringData> buildWorkflowEj3(StateGraph<NumericData> wfNumeric) {
+        StateGraph<StringData> sg = new StateGraph<>("replicate", "Replicates a given word");
+
+        sg.addWfNode("calculate", wfNumeric)
+          .withInjector((StringData sd) -> sd.toNumericData())
+          .withExtractor((NumericData nd, StringData sd) -> sd.setTimes(nd.get("result")));
+
+        sg.addNode("replicate", sd -> sd.replicate());
+
+        sg.addEdge("calculate", "replicate");
+        sg.addConditionalEdge("replicate", "replicate", sd -> sd.times() > 0);
+
+        sg.setInitial("calculate");
+
+        return sg;
+    }
+
+    /*
+     * Ejercicio 2
+     */
+    private static void mainEj2(String[] args) {
+        StateGraph<NumericData> sg = buildWorkflowEj2();
+        System.out.println(sg);
+
+        NumericData input = new NumericData(2, 3);
+        System.out.println("input = " + input);
+        NumericData output = sg.run(input, true); // ejecución con debug
+        System.out.println("result = " + output);
+
+        NumericData input2 = new NumericData(2, 2);
+        System.out.println("input = " + input2);
+        NumericData output2 = sg.run(input2, true); // ejecución con debug
+        System.out.println("result = " + output2);
+    }
+
+    private static StateGraph<NumericData> buildWorkflowEj2() {
+        StateGraph<NumericData> sg = new StateGraph<>("math2", "Add two numbers, and then square if the sum is even");
+
+        sg.addNode("sum", (NumericData mo) -> mo.put("result", mo.get("op1") + mo.get("op2")))
+          .addNode("square", (NumericData mo) -> mo.put("result", mo.get("result") * mo.get("result")));
+
+        sg.addConditionalEdge("sum", "square", (NumericData mo) -> mo.get("result") % 2 == 0);
+
+        sg.setInitial("sum");
+        sg.setFinal("square");
+
+        return sg;
+    }
+
+    /*
+     * Ejercicio 1
+     */
+    private static void mainEj1(String[] args) {
+        StateGraph<NumericData> sg = buildWorkflowEj1();
+
+        System.out.println(sg);
+
+        NumericData input = new NumericData(2, 3);
+        System.out.println("input = " + input);
+        NumericData output = sg.run(input, true); // ejecución con debug
+        System.out.println("result = " + output);
+    }
+
+    private static StateGraph<NumericData> buildWorkflowEj1() {
+        StateGraph<NumericData> sg = new StateGraph<>("math2", "Add two numbers, and then square");
+
+        sg.addNode("sum", (NumericData mo) -> mo.put("result", mo.get("op1") + mo.get("op2")))
+          .addNode("square", (NumericData mo) -> mo.put("result", mo.get("result") * mo.get("result")));
+
+        sg.addEdge("sum", "square");
+        
+        sg.setInitial("sum");
+        sg.setFinal("square");
+
+        return sg;
+    }
+
+    private static void print(String message) {
+        System.out.println("-------------------------------------------------");
+        System.out.println(message);
+        System.out.println("-------------------------------------------------");
+    }
 }
