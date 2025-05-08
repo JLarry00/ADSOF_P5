@@ -1,0 +1,24 @@
+<diagram program="umletino" version="15.1"><zoom_level>7</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>0</x><y>28</y><w>506</w><h>231</h></coordinates><panel_attributes>NodeDecorator&lt;T,R&gt;
+--
+-wrappee: Node&lt;T,R&gt;
+--
++addEdge(nextNode: Node&lt;T,R&gt;): void
++withInjector(injector: Function&lt;T,R&gt;): Node&lt;T,R&gt;
++withExtractor(extractor: BiFunction&lt;R,T,T&gt;): Node&lt;T,R&gt;
++run(input: T, debug: boolean, i: int): boolean
++isEdgeAllowed(input: T): boolean
++toString(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>231</x><y>378</y><w>322</w><h>147</h></coordinates><panel_attributes>BaseDecorator&lt;T&gt;
+--
+#wrappee: InterfaceStateGraph&lt;T&gt;
+--
++getNode(name: String): Node&lt;T,Object&gt;
++addNode(name: String, action: Consumer&lt;T&gt;): InterfaceStateGraph&lt;T&gt;
++replaceNode(node: Node&lt;T,Object&gt;): InterfaceStateGraph&lt;T&gt;
++addWfNode(name: String, workFlow: InterfaceStateGraph&lt;R&gt;): Node&lt;T,R&gt;
++addEdge(from: String, to: String): InterfaceStateGraph&lt;T&gt;
++addConditionalEdge(from: String, to: String, condition: Predicate&lt;T&gt;): void
++run(input: T, debug: boolean): T
++setInitial(name: String): void
++setFinal(name: String): void
++toString(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>749</x><y>154</y><w>308</w><h>105</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>260;10;10;130;420;10</additional_attributes></element><element><id>Relation</id><coordinates><x>630</x><y>364</y><w>133</w><h>28</h></coordinates><panel_attributes>lt=&lt;&lt;-
+finalNodes</panel_attributes><additional_attributes>10;20;170;20</additional_attributes></element><element><id>Relation</id><coordinates><x>357</x><y>308</y><w>315</w><h>56</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>270;10;10;60;430;10</additional_attributes></element></diagram>
