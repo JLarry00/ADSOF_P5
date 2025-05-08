@@ -8,10 +8,6 @@ import java.util.Scanner;
 public class TestEj3 {
 
     public static void main(String[] args) {
-        Test1(args);
-    }
-
-    private static void Test1(String[] args) {
         NumericData input = new NumericData(0, 0);
 
         StateGraph<NumericData> sgc = charCounter();
