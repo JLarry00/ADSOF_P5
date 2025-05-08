@@ -6,7 +6,7 @@ import src.decorate.*;
 import src.graph.*;
 
 /**
- * Clase principal que ejecuta los ejercicios.
+ * Clase principal que ejecuta los ejercicios/apartados de la práctica.
  * 
  * @author Juan Larrondo y Abril Palanco
  * @version 1.0
