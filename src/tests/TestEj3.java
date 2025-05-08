@@ -41,7 +41,7 @@ public class TestEj3 {
 
         sg.addNode("ask word", (StringData mo) -> {
             mo.setWord("");
-            System.out.println("Enter a word: ");
+            System.out.println("Enter a word (finish with \"/\"): ");
         })
         .addWfNode(sgc.getName(), sgc)
         .withInjector((StringData mo) -> mo.toCharacterData())
@@ -80,11 +80,5 @@ public class TestEj3 {
         sg.setFinal("end");
 
         return sg;
-    }
-    
-    private static void print(String message) {
-        System.out.println("-------------------------------------------------");
-        System.out.println(message);
-        System.out.println("-------------------------------------------------");
     }
 }
