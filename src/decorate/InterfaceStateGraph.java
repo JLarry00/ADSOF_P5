@@ -3,8 +3,19 @@ package src.decorate;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import src.graph.*;
+import java.util.*;
 
 public interface InterfaceStateGraph<T> {
+    String getName();
+
+    Map<String, Predicate<T>> getConditions();
+
+    Node<T, Object> getInitialNode();
+
+    boolean isInitial(String name);
+
+    List<Edge> getEdges();
+
     InterfaceStateGraph<T> addNode(String name, Consumer<T> action);
 
     InterfaceStateGraph<T> replaceNode(Node<T, Object> node);
@@ -24,5 +35,7 @@ public interface InterfaceStateGraph<T> {
     String toString();
 
     Node<T, Object> getNode(String name);
+
+    Map<String, Node<T, Object>> getNodes();
 }
 

@@ -5,7 +5,6 @@ import java.util.*;
 import src.graph.*;
 
 public class NodeDecorator<T, R> extends Node<T, R> {
-
     private Node<T, R> wrappee;
 
     public NodeDecorator(Node<T, R> wrappee) {
@@ -24,7 +23,7 @@ public class NodeDecorator<T, R> extends Node<T, R> {
     }
 
     @Override
-    public StateGraph<T> getParentStateGraph() {
+    public InterfaceStateGraph<T> getParentStateGraph() {
         return wrappee.getParentStateGraph();
     }
 

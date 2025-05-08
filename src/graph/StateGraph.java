@@ -3,7 +3,6 @@ package src.graph;
 import java.util.*;
 import java.util.function.*;
 
-import src.data.NumericData;
 import src.decorate.InterfaceStateGraph;
 
 public class StateGraph<T> implements InterfaceStateGraph<T> {
@@ -14,8 +13,6 @@ public class StateGraph<T> implements InterfaceStateGraph<T> {
     private List<Node<T, Object>> finalNodes;
     private List<Edge> edges;
     private LinkedHashMap<String, Predicate<T>> conditions;
-    
-    private List<NumericData> numericData;
 
     public StateGraph(String name, String description) {
         this.name = name;
@@ -25,14 +22,11 @@ public class StateGraph<T> implements InterfaceStateGraph<T> {
         this.finalNodes = new ArrayList<Node<T, Object>>();
         this.edges = new ArrayList<Edge>();
         this.conditions = new LinkedHashMap<String, Predicate<T>>();
-        this.numericData = new ArrayList<NumericData>();
-        numericData.add(new NumericData(2,2));
-        numericData.add(new NumericData(3,3));
-        numericData.add(new NumericData(4,4));
     }
-
-    public List<NumericData> getNumericData() { return Collections.unmodifiableList(numericData); }
-
+    /**
+     * Obtiene el nombre del grafo de estado.
+     * @return El nombre del grafo de estado.
+     */
     public String getName() { return name; }
 
     public String getDescription() { return description; }
@@ -45,13 +39,46 @@ public class StateGraph<T> implements InterfaceStateGraph<T> {
 
     public Node<T, Object> getNode(String name) { return nodes.get(name); }
 
+    /**
+     * Obtiene los nodos del grafo de estado.
+     * @return Mapa deos nodos del grafo de estado.
+     */
+    @Override
     public Map<String, Node<T, Object>> getNodes() { return Collections.unmodifiableMap(nodes); }
 
+    /**
+     * Obtiene las aristas del grafo de estado.
+     * @return Las aristas del grafo de estado.
+     */
+    @Override
     public List<Edge> getEdges() { return Collections.unmodifiableList(edges); }
 
+    /**
+     * Obtiene el nodo inicial del grafo de estado.
+     * @return El nodo inicial del grafo de estado.
+     */
+    @Override
+    public Node<T, Object> getInitialNode() { return initialNode; }
+
+    /**
+     * Establece el nodo inicial del grafo de estado.
+     * @param name El nombre del nodo inicial.
+     */
     @Override
     public void setInitial(String name) { initialNode = nodes.get(name); }
 
+    /**
+     * Comprueba si el nodo es el inicial.
+     * @param name El nombre del nodo.
+     * @return true si el nodo es el inicial, false en caso contrario.
+     */
+    @Override
+    public boolean isInitial(String name) { return initialNode.getName().equals(name); }
+
+    /**
+     * Establece el nodo final del grafo de estado.
+     * @param name El nombre del nodo final.
+     */
     @Override
     public void setFinal(String name) {
         finalNodes.add(nodes.get(name));

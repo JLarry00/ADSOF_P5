@@ -5,8 +5,20 @@ import src.graph.*;
 
 import java.util.Scanner;
 
+/**
+ * Clase que contiene las pruebas del ejercicio 4.
+ * Esta clase implementa tests para probar diferentes aspectos
+ * de los grafos de estado de streaming con datos de caracteres y cadenas.
+ *
+ * @author Juan Larrondo y Abril Palanco
+ * @version 1.0
+ */
 public class TestEj4 {
     
+    /**
+     * Método principal que ejecuta la prueba del ejercicio 4.
+     * @param args Los argumentos de la línea de comandos.
+     */
     public static void main(String[] args) {
         StreamingStateGraph<NumericData> sgc = charCounter();
 
@@ -22,6 +34,10 @@ public class TestEj4 {
         System.out.println("History="+sgc.history());
     }
 
+    /**
+     * Construye un flujo de trabajo para contar caracteres en una palabra.
+     * @return El grafo de estado de streaming configurado.
+     */
     private static StreamingStateGraph<NumericData> charCounter() {
         StreamingStateGraph<NumericData> sg = new StreamingStateGraph<>("char counter", "A workflow to count the number of characters in a word.");
         StreamingStateGraph<StringData> sgs = askWord();
@@ -37,6 +53,11 @@ public class TestEj4 {
 
         return sg;
     }
+
+    /**
+     * Construye un flujo de trabajo para solicitar una palabra al usuario.
+     * @return El grafo de estado de streaming configurado.
+     */
 
     private static StreamingStateGraph<StringData> askWord() {
         StreamingStateGraph<StringData> sg = new StreamingStateGraph<>("ask word", "A workflow to get a word from the user.");
@@ -63,6 +84,11 @@ public class TestEj4 {
         return sg;
     }
 
+    /**
+     * Construye un flujo de trabajo para obtener caracteres del usuario.
+     * @return El grafo de estado configurado.
+     */
+    
     private static StateGraph<CharacterData> wordGetter() {
         StateGraph<CharacterData> sg = new StateGraph<>("word getter", "A workflow to get a word from the user.");
 

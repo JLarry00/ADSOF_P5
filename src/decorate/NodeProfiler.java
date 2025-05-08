@@ -14,9 +14,11 @@ public class NodeProfiler<T, R> extends NodeDecorator<T, R> {
     public boolean run(T input, boolean debug, int i) {
         boolean allowed = super.isEdgeAllowed(input);
         String entrada = input.toString();
+
         long startTime = System.nanoTime();
         boolean result = super.run(input, debug, i);
         long endTime = System.nanoTime();
+        
         double elapsedMs = (endTime - startTime) / NANOSECONDS_TO_MILLISECONDS;
         if (allowed) stateGraphProfiler.addHistory("[" + getName() + " with: " + entrada + "] " + String.format("%.4f", elapsedMs) + " ms");
         return result;

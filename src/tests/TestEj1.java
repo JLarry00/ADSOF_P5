@@ -2,8 +2,20 @@ package src.tests;
 
 import src.graph.*;
 
+/**
+ * Clase que contiene las pruebas del ejercicio 1.
+ * Esta clase implementa varios tests para probar diferentes aspectos
+ * de los grafos de estado con datos de caracteres.
+ *
+ * @author Juan Larrondo y Abril Palanco
+ * @version 1.0
+ */
 public class TestEj1 {
 
+    /**
+     * Método principal que ejecuta todas las pruebas del ejercicio 1.
+     * @param args Los argumentos de la línea de comandos.
+     */
     public static void main(String[] args) {
         print("Test: CharacterData");
         Test1(args);
@@ -15,6 +27,10 @@ public class TestEj1 {
         Test4(args);
     }
 
+    /**
+     * Test que prueba el flujo de trabajo con encriptación de caracteres.
+     * @param args Los argumentos de la línea de comandos.
+     */
     private static void Test1(String[] args) {
         StateGraph<CharacterData> sg = buildWorkflowTest1();
 
@@ -26,6 +42,10 @@ public class TestEj1 {
         System.out.println("result = " + output);
     }
 
+    /**
+     * Test que prueba un grafo sin nodos.
+     * @param args Los argumentos de la línea de comandos.
+     */
     private static void Test2(String[] args) {
         StateGraph<CharacterData> sg = buildWorkflowTest2();
 
@@ -37,6 +57,10 @@ public class TestEj1 {
         System.out.println("result = " + output);
     }
 
+    /**
+     * Test que prueba un grafo con estructura de árbol.
+     * @param args Los argumentos de la línea de comandos.
+     */
     private static void Test3(String[] args) {
         StateGraph<CharacterData> sg = new StateGraph<>("tree", "");
 
@@ -73,6 +97,10 @@ public class TestEj1 {
         System.out.println("result = " + output);
     }
 
+    /**
+     * Test que prueba un grafo simple con tres nodos.
+     * @param args Los argumentos de la línea de comandos.
+     */
     private static void Test4(String[] args) {
         StateGraph<CharacterData> sg = new StateGraph<>("simple", "");
 
@@ -94,6 +122,10 @@ public class TestEj1 {
         System.out.println("result = " + output);
     }
 
+    /**
+     * Construye un flujo de trabajo para el test 1 con encriptación de caracteres.
+     * @return El grafo de estado configurado.
+     */
     private static StateGraph<CharacterData> buildWorkflowTest1() {
         StateGraph<CharacterData> sg = new StateGraph<>("coder", "");
 
@@ -120,14 +152,20 @@ public class TestEj1 {
         return sg;
     }
 
-    
-
+    /**
+     * Construye un flujo de trabajo vacío para el test 2.
+     * @return El grafo de estado vacío.
+     */
     private static StateGraph<CharacterData> buildWorkflowTest2() {
         StateGraph<CharacterData> sg = new StateGraph<>("coder", "");
         
         return sg;
     }
 
+    /**
+     * Imprime un mensaje con formato especial.
+     * @param message El mensaje a imprimir.
+     */
     private static void print(String message) {
         System.out.println("-------------------------------------------------");
         System.out.println(message);

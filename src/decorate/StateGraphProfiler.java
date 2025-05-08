@@ -25,6 +25,7 @@ public class StateGraphProfiler<T> extends BaseDecorator<T> {
         Node<T, Object> node = super.getNode(name);
         node = new NodeProfiler<>(node, this);
         super.replaceNode(node);
+System.out.println(super.getNodes());
         return this;
     }
     

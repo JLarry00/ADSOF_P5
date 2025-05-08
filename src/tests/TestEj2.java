@@ -6,8 +6,20 @@ import src.graph.*;
 import java.util.Random;
 import java.util.Scanner;
 
+/**
+ * Clase que contiene las pruebas del ejercicio 2.
+ * Esta clase implementa tests para probar diferentes aspectos
+ * de los grafos de estado con datos numéricos y contraseñas.
+ *
+ * @author Juan Larrondo y Abril Palanco
+ * @version 1.0
+ */
 public class TestEj2 {
 
+    /**
+     * Método principal que ejecuta todas las pruebas del ejercicio 2.
+     * @param args Los argumentos de la línea de comandos.
+     */
     public static void main(String[] args) {
         print("Test: Decrement");
         Test1(args);
@@ -15,6 +27,10 @@ public class TestEj2 {
         Test2(args);
     }
 
+    /**
+     * Test que prueba un flujo de trabajo para reducir un número aleatorio a cero.
+     * @param args Los argumentos de la línea de comandos.
+     */
     private static void Test1(String[] args) {
         StateGraph<NumericData> sg = buildWorkflowTest1();
 
@@ -26,6 +42,10 @@ public class TestEj2 {
         System.out.println("result = " + output);
     }
 
+    /**
+     * Construye un flujo de trabajo para reducir un número aleatorio a cero.
+     * @return El grafo de estado configurado.
+     */
     private static StateGraph<NumericData> buildWorkflowTest1() {
         StateGraph<NumericData> sg = new StateGraph<>("randomReducer", "A workflow to reduce a random number, in steps of 1, to zero.");
 
@@ -45,6 +65,10 @@ public class TestEj2 {
         return sg;
     }
     
+    /**
+     * Test que prueba un flujo de trabajo para resolver una adivinanza.
+     * @param args Los argumentos de la línea de comandos.
+     */
     private static void Test2(String[] args) {
         StateGraph<PasswordData> sg = new StateGraph<>("riddleSolver", "A workflow to solve a riddle by checking user input against a predefined answer.");
 
@@ -89,6 +113,10 @@ public class TestEj2 {
         System.out.println("result = " + output);
     }
 
+    /**
+     * Imprime un mensaje con formato especial.
+     * @param message El mensaje a imprimir.
+     */
     private static void print(String message) {
         System.out.println("-------------------------------------------------");
         System.out.println(message);

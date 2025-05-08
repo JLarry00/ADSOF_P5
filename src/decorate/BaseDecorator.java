@@ -1,7 +1,7 @@
 package src.decorate;
 
-import java.util.function.Consumer;
-import java.util.function.Predicate;
+import java.util.*;
+import java.util.function.*;
 
 import src.graph.*;
 
@@ -15,8 +15,38 @@ public class BaseDecorator<T> implements InterfaceStateGraph<T> {
     }
 
     @Override
+    public Map<String, Predicate<T>> getConditions() {
+        return wrappee.getConditions();
+    }
+
+    @Override
+    public String getName() {
+        return wrappee.getName();
+    }
+
+    @Override
+    public List<Edge> getEdges() {
+        return wrappee.getEdges();
+    }
+
+    @Override
+    public Node<T, Object> getInitialNode() {
+        return wrappee.getInitialNode();
+    }
+
+    @Override
+    public boolean isInitial(String name) {
+        return wrappee.isInitial(name);
+    }
+
+    @Override
     public Node<T, Object> getNode(String name) {
         return wrappee.getNode(name);
+    }
+
+    @Override
+    public Map<String, Node<T, Object>> getNodes() {
+        return wrappee.getNodes();
     }
 
     @Override

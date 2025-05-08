@@ -5,8 +5,20 @@ import src.graph.*;
 
 import java.util.Scanner;
 
+/**
+ * Clase que contiene las pruebas del ejercicio 3.
+ * Esta clase implementa tests para probar diferentes aspectos
+ * de los grafos de estado con datos de caracteres y cadenas.
+ *
+ * @author Juan Larrondo y Abril Palanco
+ * @version 1.0
+ */
 public class TestEj3 {
 
+    /**
+     * Método principal que ejecuta la prueba del ejercicio 3.
+     * @param args Los argumentos de la línea de comandos.
+     */
     public static void main(String[] args) {
         NumericData input = new NumericData(0, 0);
 
@@ -19,6 +31,10 @@ public class TestEj3 {
         System.out.println("result = " + output);
     }
 
+    /**
+     * Construye un flujo de trabajo para contar caracteres en una palabra.
+     * @return El grafo de estado configurado.
+     */
     private static StateGraph<NumericData> charCounter() {
         StateGraph<NumericData> sg = new StateGraph<>("char counter", "A workflow to count the number of characters in a word.");
         StateGraph<StringData> sgs = askWord();
@@ -35,6 +51,10 @@ public class TestEj3 {
         return sg;
     }
 
+    /**
+     * Construye un flujo de trabajo para solicitar una palabra al usuario.
+     * @return El grafo de estado configurado.
+     */
     private static StateGraph<StringData> askWord() {
         StateGraph<StringData> sg = new StateGraph<>("ask word", "A workflow to get a word from the user.");
         StateGraph<CharacterData> sgc = wordGetter();
@@ -60,6 +80,10 @@ public class TestEj3 {
         return sg;
     }
 
+    /**
+     * Construye un flujo de trabajo para obtener caracteres del usuario.
+     * @return El grafo de estado configurado.
+     */
     private static StateGraph<CharacterData> wordGetter() {
         StateGraph<CharacterData> sg = new StateGraph<>("word getter", "A workflow to get a word from the user.");
         Scanner scanner = new Scanner(System.in);

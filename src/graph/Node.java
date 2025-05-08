@@ -11,12 +11,17 @@ public class Node<T, R> {
     private boolean finalNode;
     private List<Node<T, R>> childs;
     private Node<T, R> previousNode;
-    private StateGraph<T> parentStateGraph;
+    private InterfaceStateGraph<T> parentStateGraph;
     private InterfaceStateGraph<R> workflowGraph;
     private Function<T, R> injector;
     private BiFunction<R, T, T> extractor;
-
-    public Node(String name, Consumer<T> action, StateGraph<T> stateGraph) {
+    /**
+     * Constructor de la clase Node.
+     * @param name El nombre del nodo.
+     * @param action La acción a realizar en el nodo.
+     * @param stateGraph El grafo de estado al que pertenece el nodo.
+     */
+    public Node(String name, Consumer<T> action, InterfaceStateGraph<T> stateGraph) {
         this.name = name;
         this.action = action;
         this.parentStateGraph = stateGraph;
@@ -28,7 +33,13 @@ public class Node<T, R> {
         this.finalNode = false;
     }
 
-    public Node(String name, StateGraph<T> stateGraph, InterfaceStateGraph<R> workflowGraph) {
+    /**
+     * Constructor de la clase Node.
+     * @param name El nombre del nodo.
+     * @param stateGraph El grafo de estado al que pertenece el nodo.
+     * @param workflowGraph La interfaz grafo de estado hijo.
+     */
+    public Node(String name, InterfaceStateGraph<T> stateGraph, InterfaceStateGraph<R> workflowGraph) {
         this.name = name;
         this.action = null;
         this.parentStateGraph = stateGraph;
@@ -50,8 +61,16 @@ public class Node<T, R> {
 
     public Node<T, R> getPreviousNode() { return previousNode; }
 
-    public StateGraph<T> getParentStateGraph() { return parentStateGraph; }
-
+    /**
+     * Obtiene el grafo de estado padre.
+     * @return El grafo de estado padre.
+     */
+    public InterfaceStateGraph<T> getParentStateGraph() { return parentStateGraph; }
+    
+    /**
+     * Obtiene el grafo de estado hijo.
+     * @return El grafo de estado hijo.
+     */
     public InterfaceStateGraph<R> getWorkflowGraph() { return workflowGraph; }
 
     public Function<T, R> getInjector() { return injector; }
