@@ -64,6 +64,7 @@ public interface InterfaceStateGraph<T> {
      * Añade un nodo de flujo de trabajo al grafo de estado.
      * @param name El nombre del nodo a añadir.
      * @param workFlow El grafo de estado del flujo de trabajo.
+     * @param <R> El tipo de datos del grafo que este nodo ejecutará.
      * @return El nodo añadido.
      */
     <R> Node<T, R> addWfNode(String name, InterfaceStateGraph<R> workFlow);
