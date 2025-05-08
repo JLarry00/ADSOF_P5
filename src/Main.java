@@ -1,13 +1,22 @@
 package src;
 
+import java.util.List;
 import src.data.*;
 import src.decorate.*;
 import src.graph.*;
 
-import java.util.List;
-
+/**
+ * Clase principal que ejecuta los ejercicios.
+ * 
+ * @author Juan Larrondo y Abril Palanco
+ * @version 1.0
+ */
 public class Main {
 
+    /**
+     * Método principal que ejecuta los ejercicios.
+     * @param args Los argumentos de la línea de comandos.
+     */
     public static void main(String[] args) {
         print("Ejercicio 1");
         mainEj1(args);
@@ -23,6 +32,10 @@ public class Main {
 
     /*
      * Ejercicio 5
+     */
+    /**
+     * Método principal que ejecuta el ejercicio 5.
+     * @param args Los argumentos de la línea de comandos.
      */
     public static void mainEj5(String[] args) {
         StateGraph<NumericData> g = new StateGraph<>("loop-down", "Get a number, and decrease if positive");
@@ -43,6 +56,10 @@ public class Main {
     /*
      * Ejercicio 4
      */
+    /**
+     * Método principal que ejecuta el ejercicio 4.
+     * @param args Los argumentos de la línea de comandos.
+     */
     public static void mainEj4(String[] args) {
         StreamingStateGraph<DoubleData> sg = buildWorkflowEj4(); // el método construye el workflow
         System.out.println(sg);
@@ -55,6 +72,10 @@ public class Main {
         System.out.println("History="+sg.history());
     }
 
+    /**
+     * Método que construye el workflow del ejercicio 4.
+     * @return El workflow del ejercicio 4.
+     */
     private static StreamingStateGraph<DoubleData> buildWorkflowEj4() {
         StreamingStateGraph<DoubleData> sg = new StreamingStateGraph<>("average", "Calculates the average of an incoming data");
 
@@ -75,6 +96,10 @@ public class Main {
     /*
      * Ejercicio 3
      */
+    /**
+     * Método principal que ejecuta el ejercicio 3.
+     * @param args Los argumentos de la línea de comandos.
+     */
     private static void mainEj3(String[] args) {
         StateGraph<NumericData> wfNumeric = buildWorkflowEj2();
         StateGraph<StringData> sg = buildWorkflowEj3(wfNumeric);
@@ -86,6 +111,11 @@ public class Main {
         System.out.println("result = " + output);
     }
 
+    /**
+     * Método que construye el workflow del ejercicio 3.
+     * @param wfNumeric El workflow del ejercicio 2.
+     * @return El workflow del ejercicio 3.
+     */
     public static StateGraph<StringData> buildWorkflowEj3(StateGraph<NumericData> wfNumeric) {
         StateGraph<StringData> sg = new StateGraph<>("replicate", "Replicates a given word");
 
@@ -106,6 +136,10 @@ public class Main {
     /*
      * Ejercicio 2
      */
+    /**
+     * Método principal que ejecuta el ejercicio 2.
+     * @param args Los argumentos de la línea de comandos.
+     */
     private static void mainEj2(String[] args) {
         StateGraph<NumericData> sg = buildWorkflowEj2();
         System.out.println(sg);
@@ -121,6 +155,10 @@ public class Main {
         System.out.println("result = " + output2);
     }
 
+    /**
+     * Método que construye el workflow del ejercicio 2.
+     * @return El workflow del ejercicio 2.
+     */
     private static StateGraph<NumericData> buildWorkflowEj2() {
         StateGraph<NumericData> sg = new StateGraph<>("math2", "Add two numbers, and then square if the sum is even");
 
@@ -138,6 +176,10 @@ public class Main {
     /*
      * Ejercicio 1
      */
+    /**
+     * Método principal que ejecuta el ejercicio 1.
+     * @param args Los argumentos de la línea de comandos.
+     */
     private static void mainEj1(String[] args) {
         StateGraph<NumericData> sg = buildWorkflowEj1();
 
@@ -149,6 +191,10 @@ public class Main {
         System.out.println("result = " + output);
     }
 
+    /**
+     * Método que construye el workflow del ejercicio 1.
+     * @return El workflow del ejercicio 1.
+     */
     private static StateGraph<NumericData> buildWorkflowEj1() {
         StateGraph<NumericData> sg = new StateGraph<>("math2", "Add two numbers, and then square");
 
@@ -163,6 +209,10 @@ public class Main {
         return sg;
     }
 
+    /**
+     * Método que imprime un mensaje.
+     * @param message El mensaje a imprimir.
+     */
     private static void print(String message) {
         System.out.println("-------------------------------------------------");
         System.out.println(message);
