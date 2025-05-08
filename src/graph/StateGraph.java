@@ -104,17 +104,16 @@ public class StateGraph<T> implements InterfaceStateGraph<T> {
 
     @Override
     public T run(T input, boolean debug) {
-        T output = input;
         int i = 1;
         
         if (initialNode != null) {
-            if (conditions.get(initialNode.getName()) == null || conditions.get(initialNode.getName()).test(output)) {
+            if (conditions.get(initialNode.getName()) == null || conditions.get(initialNode.getName()).test(input)) {
                 if (debug) System.out.println("Step " + i + " (" + name + ") - " + "input: " + input);
-                initialNode.run(output, debug, i + 1);
+                initialNode.run(input, debug, i + 1);
             }
         }
         
-        return output;
+        return input;
     }
 
     @Override

@@ -86,8 +86,7 @@ public class Node<T, R> {
         if (workflowGraph != null) {
             R workflowInput = injector.apply(input);
             R workflowOutput = workflowGraph.run(workflowInput, debug);
-            T extractedData = extractor.apply(workflowOutput, input);
-            input = extractedData;
+            input = extractor.apply(workflowOutput, input);
         }
 
         if (!isEdgeAllowed(input)) return true;

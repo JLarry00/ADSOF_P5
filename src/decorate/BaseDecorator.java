@@ -2,7 +2,9 @@ package src.decorate;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-import src.graph.Node;
+
+import src.graph.*;
+
 
 public class BaseDecorator<T> implements InterfaceStateGraph<T> {
     protected InterfaceStateGraph<T> wrappee;

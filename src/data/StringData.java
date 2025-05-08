@@ -1,5 +1,7 @@
 package src.data;
 
+import src.tests.*;
+
 public class StringData {
     private int times;
     private String word;
@@ -26,8 +28,31 @@ public class StringData {
         return this.times;
     }
 
+    public String getWord() {
+        return this.word;
+    }
+
+    public StringData setWord(String word) {
+        this.word = word;
+        return this;
+    }
+
+    public StringData concat(char c) {
+        this.word += c;
+        return this;
+    }
+
     public NumericData toNumericData() {
-        return new NumericData(times, 0);
+        NumericData nd = new NumericData(0, 0);
+        nd.put("result", word.length());
+        return nd;
+    }
+
+    public CharacterData toCharacterData() {
+        if (word.length() == 0) return new CharacterData('_');
+        CharacterData cd = new CharacterData(word.charAt(0));
+        cd.setWord(word);
+        return cd;
     }
 
     public StringData setTimes(int times) {

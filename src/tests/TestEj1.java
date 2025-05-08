@@ -1,6 +1,5 @@
 package src.tests;
 
-import src.data.*;
 import src.graph.*;
 
 public class TestEj1 {
@@ -16,9 +15,6 @@ public class TestEj1 {
         Test4(args);
     }
 
-    /*
-     * Ejercicio 1
-     */
     private static void Test1(String[] args) {
         StateGraph<CharacterData> sg = buildWorkflowTest1();
 
