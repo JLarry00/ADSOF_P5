@@ -1,0 +1,136 @@
+<diagram program="umletino" version="15.1"><zoom_level>8</zoom_level><help_text>Space for d</help_text><element><id>UMLClass</id><coordinates><x>432</x><y>0</y><w>152</w><h>48</h></coordinates><panel_attributes>DoubleData
+--
+-value: double
+-avg: double
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>440</x><y>376</y><w>152</w><h>32</h></coordinates><panel_attributes>NumericData
+--
++toStringData(): StringData
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>664</x><y>48</y><w>152</w><h>120</h></coordinates><panel_attributes>StringData
+--
+-times: int
+-word: String
+-result: String
+--
++replicate(): String
++setWord(word: String): StringData
++concat(c: char): StringData
++toNumericData(): NumericData
++toCharacterData(): CharacterData
++setTimes(times: int): StringData
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>624</x><y>288</y><w>80</w><h>48</h></coordinates><panel_attributes>Edge
+--
+-from: String
+-to: String
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>112</x><y>368</y><w>280</w><h>232</h></coordinates><panel_attributes>
+Node&lt;T,R&gt;
+--
+-name: String
+-action: Consumer&lt;T&gt;
+-finalNode: boolean
+-childs: List&lt;Node&lt;T,R&gt;&gt;
+-previousNode: Node&lt;T,R&gt;
+-parentStateGraph: StateGraph&lt;T&gt;
+-workflowGraph: InterfaceStateGraph&lt;R&gt;
+-injector: Function&lt;T,R&gt;
+-extractor: BiFunction&lt;R,T,T&gt;
+--
++addEdge(nextNode: Node&lt;T,R&gt;): void
++withInjector(injector: Function&lt;T,R&gt;): Node&lt;T,R&gt;
++withExtractor(extractor: BiFunction&lt;R,T,T&gt;): Node&lt;T,R&gt;
++run(input: T, debug: boolean, i: int): boolean
++isEdgeAllowed(input: T): boolean
++toString(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>632</x><y>480</y><w>376</w><h>216</h></coordinates><panel_attributes>StateGraph&lt;T&gt;
+--
+-name: String
+-description: String
+-nodes: LinkedHashMap&lt;String,Node&lt;T,Object&gt;&gt;
+-initialNode: Node&lt;T,Object&gt;
+-finalNodes: List&lt;Node&lt;T,Object&gt;&gt;
+-edges: List&lt;Edge&gt;
+-conditions: LinkedHashMap&lt;String,Predicate&lt;T&gt;&gt;
+-numericData: List&lt;NumericData&gt;
+--
++addNode(name: String, action: Consumer&lt;T&gt;): InterfaceStateGraph&lt;T&gt;
++replaceNode(node: Node&lt;T,Object&gt;): InterfaceStateGraph&lt;T&gt;
++addWfNode(name: String, workFlow: InterfaceStateGraph&lt;R&gt;): Node&lt;T,R&gt;
++addEdge(from: String, to: String): InterfaceStateGraph&lt;T&gt;
++addConditionalEdge(from: String, to: String, condition: Predicate&lt;T&gt;): void
++run(input: T, debug: boolean): T
++toString(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>672</x><y>768</y><w>304</w><h>96</h></coordinates><panel_attributes>StreamingStateGraph&lt;T&gt;
+--
+-history: List&lt;T&gt;
+--
++addNode(name: String, action: Consumer&lt;T&gt;): StateGraph&lt;T&gt;
++run(input: T, debug: boolean): T
++addHistory(exec: T): void
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1112</x><y>464</y><w>368</w><h>232</h></coordinates><panel_attributes>BaseDecorator&lt;T&gt;
+--
++getNode(name: String): Node&lt;T,Object&gt;
++addNode(name: String, action: Consumer&lt;T&gt;): InterfaceStateGraph&lt;T&gt;
++replaceNode(node: Node&lt;T,Object&gt;): InterfaceStateGraph&lt;T&gt;
++addWfNode(name: String, workFlow: InterfaceStateGraph&lt;R&gt;): Node&lt;T,R&gt;
++addEdge(from: String, to: String): InterfaceStateGraph&lt;T&gt;
++addConditionalEdge(from: String, to: String, condition: Predicate&lt;T&gt;): void
++run(input: T, debug: boolean): T
++setInitial(name: String): void
++setFinal(name: String): void
++toString(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>856</x><y>208</y><w>384</w><h>168</h></coordinates><panel_attributes>&lt;&lt;interface&gt;&gt;
+InterfaceStateGraph&lt;T&gt;
+--
++addNode(name: String, action: Consumer&lt;T&gt;): InterfaceStateGraph&lt;T&gt;
++replaceNode(node: Node&lt;T,Object&gt;): InterfaceStateGraph&lt;T&gt;
++addWfNode(name: String, workFlow: InterfaceStateGraph&lt;R&gt;): Node&lt;T,R&gt;
++addEdge(from: String, to: String): InterfaceStateGraph&lt;T&gt;
++addConditionalEdge(from: String, to: String, condition: Predicate&lt;T&gt;): void
++run(input: T, debug: boolean): T
++setInitial(name: String): void
++setFinal(name: String): void
++toString(): String
++getNode(name: String): Node&lt;T,Object&gt;
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>64</x><y>656</y><w>368</w><h>168</h></coordinates><panel_attributes>NodeDecorator&lt;T,R&gt;
+--
++addEdge(nextNode: Node&lt;T,R&gt;): void
++withInjector(injector: Function&lt;T,R&gt;): Node&lt;T,R&gt;
++withExtractor(extractor: BiFunction&lt;R,T,T&gt;): Node&lt;T,R&gt;
++run(input: T, debug: boolean, i: int): boolean
++isEdgeAllowed(input: T): boolean
++toString(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>904</y><w>240</w><h>72</h></coordinates><panel_attributes>NodeLogger&lt;T,R&gt;
+--
+-stateGraphLogger: StateGraphLogger&lt;T&gt;
+--
++run(input: T, debug: boolean, i: int): boolean
++toString(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>280</x><y>904</y><w>368</w><h>88</h></coordinates><panel_attributes>NodeProfiler&lt;T,R&gt;
+--
+-NANOSECONDS_TO_MILLISECONDS: double
+-stateGraphProfiler: StateGraphProfiler&lt;T&gt;
+--
++run(input: T, debug: boolean, i: int): boolean
++toString(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1432</x><y>760</y><w>368</w><h>112</h></coordinates><panel_attributes>StateGraphLogger&lt;T&gt;
+--
+-fileName: String
+-registers: List&lt;String&gt;
+--
++addRegister(register: String): void
++run(input: T, debug: boolean): T
++registerExecutions(): void
++addNode(name: String, action: Consumer&lt;T&gt;): InterfaceStateGraph&lt;T&gt;
++toString(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1032</x><y>768</y><w>368</w><h>96</h></coordinates><panel_attributes>StateGraphProfiler&lt;T&gt;
+--
+-historic: List&lt;String&gt;
+--
++run(input: T, debug: boolean): T
++addNode(name: String, action: Consumer&lt;T&gt;): InterfaceStateGraph&lt;T&gt;
++addHistory(history: String): void
++toString(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>920</x><y>368</y><w>24</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>1160</x><y>368</y><w>24</w><h>112</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;120</additional_attributes></element><element><id>Relation</id><coordinates><x>880</x><y>688</y><w>24</w><h>96</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>1152</x><y>688</y><w>24</w><h>96</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>1448</x><y>688</y><w>24</w><h>88</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>232</x><y>592</y><w>24</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>152</x><y>816</y><w>24</w><h>104</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;110</additional_attributes></element><element><id>Relation</id><coordinates><x>328</x><y>816</y><w>24</w><h>104</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;110</additional_attributes></element><element><id>Relation</id><coordinates><x>656</x><y>328</y><w>48</w><h>168</h></coordinates><panel_attributes>lt=-
+m1=*
+m2=
+edges
+	</panel_attributes><additional_attributes>10;10;10;190</additional_attributes></element><element><id>Relation</id><coordinates><x>384</x><y>504</y><w>264</w><h>40</h></coordinates><panel_attributes>lt=-
+m1=*
+finalNodes</panel_attributes><additional_attributes>10;20;310;20</additional_attributes></element><element><id>Relation</id><coordinates><x>488</x><y>400</y><w>160</w><h>112</h></coordinates><panel_attributes>lt=-
+m1=0..n
+m2=0..1
+          numericData</panel_attributes><additional_attributes>30;10;30;110;180;110</additional_attributes></element><element><id>Relation</id><coordinates><x>1232</x><y>288</y><w>368</w><h>296</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>310;350;440;350;440;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>0</x><y>448</y><w>128</w><h>288</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>80;340;10;340;10;10;140;10</additional_attributes></element></diagram>
