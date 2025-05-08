@@ -43,7 +43,7 @@ public class StringData {
     }
 
     public NumericData toNumericData() {
-        NumericData nd = new NumericData(0, 0);
+        NumericData nd = new NumericData(times, 0);
         nd.put("result", word.length());
         return nd;
     }
