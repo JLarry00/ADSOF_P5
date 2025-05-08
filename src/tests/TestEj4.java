@@ -93,6 +93,7 @@ public class TestEj4 {
         StateGraph<CharacterData> sg = new StateGraph<>("word getter", "A workflow to get a word from the user.");
 
         sg.addNode("ask letter", (CharacterData mo) -> {
+            @SuppressWarnings("resource")
             Scanner scanner = new Scanner(System.in);
             String userInput = scanner.nextLine();
             if (userInput.length() > 0) {

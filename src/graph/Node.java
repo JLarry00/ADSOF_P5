@@ -23,7 +23,7 @@ public class Node<T, R> {
     /** Nodo anterior */
     private Node<T, R> previousNode;
     /** Grafo de estado padre */
-    private StateGraph<T> parentStateGraph;
+    private InterfaceStateGraph<T> parentStateGraph;
     /** Grafo de estado hijo */
     private InterfaceStateGraph<R> workflowGraph;
     /** Inyector */
@@ -100,7 +100,7 @@ public class Node<T, R> {
      * Obtiene el grafo de estado padre.
      * @return El grafo de estado padre.
      */
-    public StateGraph<T> getParentStateGraph() { return parentStateGraph; }
+    public InterfaceStateGraph<T> getParentStateGraph() { return parentStateGraph; }
     
     /**
      * Obtiene el grafo de estado hijo.
