@@ -27,16 +27,15 @@ public class StreamingStateGraph<T> extends StateGraph<T> {
 
     @Override
     public T run(T input, boolean debug) {
-        T output = input;
         int i = 1;
         List<T> history = new ArrayList<T>(this.history);
         history.add(input);
         
-        if ((super.getInitial() != null && super.getConditions().get(super.getInitial().getName()) == null) || super.getConditions().get(super.getInitial().getName()).test(output)) {
+        if ((super.getInitial() != null && super.getConditions().get(super.getInitial().getName()) == null) || super.getConditions().get(super.getInitial().getName()).test(input)) {
             if (debug) System.out.println("Step " + i + " (" + super.getName() + ") - " + "input: " + history);
-            super.getInitial().run(output, debug, i + 1);
+            super.getInitial().run(input, debug, i + 1);
         }
-        addHistory(output);
-        return output;
+        addHistory(input);
+        return input;
     }
 }

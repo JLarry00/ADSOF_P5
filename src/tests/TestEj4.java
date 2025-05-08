@@ -5,23 +5,26 @@ import src.graph.*;
 
 import java.util.Scanner;
 
-public class TestEj3 {
-
+public class TestEj4 {
+    
     public static void main(String[] args) {
-        NumericData input = new NumericData(0, 0);
-
-        StateGraph<NumericData> sgc = charCounter();
+        StreamingStateGraph<NumericData> sgc = charCounter();
 
         System.out.println(sgc);
 
-        NumericData output = sgc.run(input, true);
-
-        System.out.println("result = " + output);
+        NumericData input;
+        do {
+            input = new NumericData(0, 0);
+            System.out.println("Workflow input = " + input);
+            input = sgc.run(input, true);
+            System.out.println("Workflow output = " + input);
+        } while (input.get("result") != 0);
+        System.out.println("History="+sgc.history());
     }
 
-    private static StateGraph<NumericData> charCounter() {
-        StateGraph<NumericData> sg = new StateGraph<>("char counter", "A workflow to count the number of characters in a word.");
-        StateGraph<StringData> sgs = askWord();
+    private static StreamingStateGraph<NumericData> charCounter() {
+        StreamingStateGraph<NumericData> sg = new StreamingStateGraph<>("char counter", "A workflow to count the number of characters in a word.");
+        StreamingStateGraph<StringData> sgs = askWord();
 
         sg.addWfNode(sgs.getName(), sgs)
         .withInjector((NumericData mo) -> mo.toStringData())
@@ -35,8 +38,8 @@ public class TestEj3 {
         return sg;
     }
 
-    private static StateGraph<StringData> askWord() {
-        StateGraph<StringData> sg = new StateGraph<>("ask word", "A workflow to get a word from the user.");
+    private static StreamingStateGraph<StringData> askWord() {
+        StreamingStateGraph<StringData> sg = new StreamingStateGraph<>("ask word", "A workflow to get a word from the user.");
         StateGraph<CharacterData> sgc = wordGetter();
 
         sg.addNode("ask word", (StringData mo) -> {
@@ -62,18 +65,16 @@ public class TestEj3 {
 
     private static StateGraph<CharacterData> wordGetter() {
         StateGraph<CharacterData> sg = new StateGraph<>("word getter", "A workflow to get a word from the user.");
-        Scanner scanner = new Scanner(System.in);
 
         sg.addNode("ask letter", (CharacterData mo) -> {
+            Scanner scanner = new Scanner(System.in);
             String userInput = scanner.nextLine();
             if (userInput.length() > 0) {
                 mo.encryptAndReplaceChar(c -> userInput.charAt(0));
                 mo.setWord(mo.getWord() + userInput.charAt(0));
             }
         })
-        .addNode("end", (CharacterData mo) -> {
-            scanner.close();
-        });
+        .addNode("end", (CharacterData mo) -> {});
 
         sg.addConditionalEdge("ask letter", "ask letter", (CharacterData mo) -> mo.getOriginal() != '/');
         sg.addEdge("ask letter", "end");
